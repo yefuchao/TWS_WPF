@@ -27,6 +27,8 @@ namespace TWS_WPFVersion
     {
         public bool IsConnected = false;
 
+        private StringBuilder logText = new StringBuilder();
+
         private IBClient IBClient;
 
         private AccountManager accountManager;
@@ -178,7 +180,11 @@ namespace TWS_WPFVersion
 
         private void ShowMessageOnPanel(string str)
         {
-
+            if (!string.IsNullOrEmpty(str))
+            {
+                logText.AppendLine(str);
+                LogTab.Text = logText.ToString();
+            }
         }
 
         private void Request_Click(object sender, RoutedEventArgs e)

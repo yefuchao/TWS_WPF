@@ -114,16 +114,20 @@ namespace TWS_WPFVersion
 
         public void RequestAccountSummary()
         {
-            if (!accountSummaryRequestActive)
-            {
-                accountSummaryRequestActive = true;
-                accountSumList.Clear();
-                ibClient.ClientSocket.reqAccountSummary(ACCOUNT_SUMMARY_ID, "All", ACCOUNT_SUMMARY_TAGS);
-            }
-            else
-            {
-                ibClient.ClientSocket.cancelAccountSummary(ACCOUNT_SUMMARY_ID);
-            }
+            //1 bug
+            //if (!accountSummaryRequestActive)
+            //{
+            //    accountSummaryRequestActive = true;
+            //    accountSumList.Clear();
+            //    ibClient.ClientSocket.reqAccountSummary(ACCOUNT_SUMMARY_ID, "All", ACCOUNT_SUMMARY_TAGS);
+            //}
+            //else
+            //{
+            //    ibClient.ClientSocket.cancelAccountSummary(ACCOUNT_SUMMARY_ID);
+            //}
+
+            accountSumList.Clear();
+            ibClient.ClientSocket.reqAccountSummary(ACCOUNT_SUMMARY_ID, "All", ACCOUNT_SUMMARY_TAGS);
         }
     }
 }
