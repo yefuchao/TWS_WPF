@@ -33,9 +33,13 @@ namespace TWS_WPFVersion
 
         private AccountManager accountManager;
 
+        private MarketDataManager marketDataManager;
+
         delegate void MessageHandlerDelegate(IBMessage message);
 
         private EReaderMonitorSignal signal = new EReaderMonitorSignal();
+
+        public ObservableCollection<string> SecTypeList = new ObservableCollection<string> { "STK", "OPT", "FUT", "IND", "FOP", "CASH", "BAG", "NEWS" };
 
         public MainWindow()
         {
@@ -43,11 +47,13 @@ namespace TWS_WPFVersion
 
             InitializeComponent();
 
-            Data.Source = new System.Uri("Main.xaml", UriKind.Relative);
-
             accountManager = new AccountManager(IBClient, accountList, accountSum, accountUpd);
 
+            marketDataManager = new MarketDataManager(IBClient, MKData_LV);
+
             IBClient.Error += IbClient_Error;
+
+            IBClient.TickPrice += ibClient_TickPrice;
 
             IBClient.ManagedAccounts += accountsList => HandleMessage(new ManageAccountsMessage(accountsList));
 
@@ -59,6 +65,10 @@ namespace TWS_WPFVersion
 
             if (!IsConnected)
                 status.Content = "disconnet";
+
+            secType.ItemsSource = SecTypeList;
+
+            secType.SelectedIndex = 0;
         }
 
         private void IbClient_Error(int id, int errorCode, string str, Exception ex)
@@ -82,6 +92,12 @@ namespace TWS_WPFVersion
         private void addMessageToBox(string str)
         {
             HandleMessage(new ErrorMessage(str, -1, -1));
+        }
+
+        private void ibClient_TickPrice(int tickerId,int field,double price,int canAutoExecute)
+        {
+            addMessageToBox("Tick Price. Tick id:" + tickerId + "Type" + TickType.getField(field) + ",Price: " + price);
+            HandleMessage(new TickPriceMessage(tickerId, field, price, canAutoExecute));
         }
 
         private void AccountList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -173,9 +189,17 @@ namespace TWS_WPFVersion
 
                     }
                     break;
+                case MessageType.TickPrice:
+                    HandleTickMessage((MarketDataMessage)message);
+                    break;
                 default:
                     break;
             }
+        }
+
+        private void HandleTickMessage(MarketDataMessage message)
+        {
+            marketDataManager.UpdateUI(message);
         }
 
         private void ShowMessageOnPanel(string str)
@@ -191,6 +215,49 @@ namespace TWS_WPFVersion
         {
             accountManager.RequestAccountSummary();
         }
+
+        private void addTicker_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsConnected)
+            {
+                Contract contract = GetMDContract();
+                string genericTickList = gtList.Text;
+                if (genericTickList == null)
+                {
+                    genericTickList = "";
+                }
+                marketDataManager.AddRequest(contract, genericTickList);
+            }
+        }
+
+        private void stopTicker_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private Contract GetMDContract()
+        {
+            Contract contract = new Contract();
+            contract.SecType = secType.Text;
+            contract.Symbol = symbol.Text;
+            contract.Exchange = exchange.Text;
+            contract.Currency = currency.Text;
+            contract.LastTradeDateOrContractMonth = ltDate.Text;
+            contract.PrimaryExch = primaryExch.Text;
+            contract.IncludeExpired = false;
+            if (!string.IsNullOrEmpty(strick.Text))
+            {
+                contract.Strike = Convert.ToDouble(strick.Text);
+            }
+            contract.Multiplier = multiplier.Text;
+            contract.LocalSymbol = localSymbol.Text;
+            if (!putCall.Text.Equals("") && !putCall.Text.Equals("None"))
+            {
+                contract.Right = putCall.Text.Equals("Put") ? "p" : "C";
+            }
+            return contract;
+        }
+
     }
 }
 

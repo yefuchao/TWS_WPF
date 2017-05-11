@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TWS_WPFVersion"
         mc:Ignorable="d"
-        Title="IB" Height="350" Width="525">
+        Title="IB" Height="720" Width="1280">
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Top">
             <WrapPanel HorizontalAlignment="Right" Orientation="Horizontal">
@@ -21,10 +21,106 @@
                 <RowDefinition Height="*" />
                 <RowDefinition MinHeight="20" MaxHeight="30"/>
             </Grid.RowDefinitions>
-            
+
             <TabControl>
                 <TabItem Header="Data">
-                    <Frame Name="Data"></Frame>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel MinHeight="200">
+                            <TabControl>
+                                <TabItem Header="Market Data">
+                                    <StackPanel Orientation="Horizontal">
+                                        <GroupBox>
+                                            <GroupBox.Header>Contract</GroupBox.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel Orientation="Vertical" MinWidth="200">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Symbol</Label>
+                                                        <TextBox  Name="symbol" MinWidth="80"></TextBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label >Sec Type</Label>
+                                                        <ComboBox Name="secType" 
+                                                                  MinWidth="80"
+                                                                  ItemsSource="{Binding SecTypeList}"></ComboBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Currency</Label>
+                                                        <TextBox  Name="currency" MinWidth="80"></TextBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Exchange</Label>
+                                                        <TextBox Name="exchange" MinWidth="80"></TextBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Local Symbol</Label>
+                                                        <TextBox Name="localSymbol" MinWidth="80"></TextBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Primary Exch.</Label>
+                                                        <TextBox Name="primaryExch" MinWidth="80"></TextBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Vertical" MinWidth="200">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Generic Tick List</Label>
+                                                        <TextBox Name="gtList" MinWidth="80"></TextBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <Label>Last Trade DATE/Contract Month</Label>
+                                                        <TextBox Name="ltDate"></TextBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Put/Call</Label>
+                                                        <ComboBox Name="putCall" MinWidth="60">
+                                                            <ComboBoxItem IsSelected="True">None</ComboBoxItem>
+                                                            <ComboBoxItem>Put</ComboBoxItem>
+                                                            <ComboBoxItem>Call</ComboBoxItem>
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Strick</Label>
+                                                        <TextBox Name="strick" MinWidth="80"></TextBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label>Multiplier</Label>
+                                                        <TextBox Name="multiplier" MinWidth="80"></TextBox>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button Name="addTicker" Click="addTicker_Click" Margin="0,0,10,0">Add Ticker</Button>
+                                                        <Button Name="stopTicker" Click="stopTicker_Click" Margin="10,0,0,0">Stop</Button>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </GroupBox>
+                                    </StackPanel>
+                                </TabItem>
+                                <TabItem Header="Scanner">
+
+                                </TabItem>
+                            </TabControl>
+                        </StackPanel>
+                        <StackPanel>
+                            <TabControl>
+                                <TabItem Header="Market Data">
+                                    <ListView Name="MKData_LV" ItemsSource="{Binding marketDataList}">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"></GridViewColumn>
+                                                <GridViewColumn Header="Bid" DisplayMemberBinding="{Binding Bid}"></GridViewColumn>
+                                                <GridViewColumn Header="Ask" DisplayMemberBinding="{Binding Ask}"></GridViewColumn>
+                                                <GridViewColumn Header="Close" DisplayMemberBinding="{Binding Close}"></GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </TabItem>
+                                <TabItem Header="Deep Book"></TabItem>
+                                <TabItem Header="Historial Bars"></TabItem>
+                                <TabItem Header="RT Bars"></TabItem>
+                                <TabItem Header="Scanner Results"></TabItem>
+                                <TabItem Header="Scanner Parameters"></TabItem>
+                            </TabControl>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
                 <TabItem Header="Account Info">
                     <StackPanel>

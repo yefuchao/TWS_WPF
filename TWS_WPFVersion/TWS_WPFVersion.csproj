@@ -54,22 +54,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Message\AccountManager.cs" />
+    <Compile Include="Manager\AccountManager.cs" />
+    <Compile Include="Manager\OptionsManager.cs" />
     <Compile Include="Message\AccountsSummaryEndMessage.cs" />
     <Compile Include="Message\AccountSummaryMessage.cs" />
     <Compile Include="Message\ConnectionStatusMessage.cs" />
+    <Compile Include="Manager\DataManager.cs" />
     <Compile Include="Message\ErrorMessage.cs" />
     <Compile Include="Message\IBMessage.cs" />
     <Compile Include="Message\ManageAccountsMessage.cs" />
+    <Compile Include="Manager\MarketDataManager.cs" />
+    <Compile Include="Message\MarketDataMessage.cs" />
     <Compile Include="Message\MessageType.cs" />
-    <Compile Include="Scanner.xaml.cs">
-      <DependentUpon>Scanner.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Message\TickPriceMessage.cs" />
+    <Compile Include="util\Utils.cs" />
     <Compile Include="ViewModel\AccountInfo.cs" />
-    <Page Include="Main.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="ViewModel\MarketData.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,26 +79,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IBClient.cs" />
-    <Compile Include="Main.xaml.cs">
-      <DependentUpon>Main.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MarketData.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Scanner.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MarketData.xaml.cs">
-      <DependentUpon>MarketData.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
